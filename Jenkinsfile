@@ -12,9 +12,9 @@ pipeline {
           }  
         }
 
-        sonarcube scanner for maven => 
+    
 
-node {
+ 
   stage('SCM') {
     git 'https://github.com/akhilvijay15/vprofile-project.git'
   }
@@ -27,4 +27,4 @@ node {
 }
 
     } 
-    }
+    
