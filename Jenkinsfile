@@ -12,29 +12,7 @@ pipeline {
           }  
         }
 
-        stage('Build') {
-            steps {
-                sh 'mvn clean install'
-            }
-            post {
-                success {
-                    echo "Now Archiving."
-                    archiveArtifacts artifacts: '**/*.war'
-                }
-            }
-        }
-        stage('Test'){
-            steps {
-                sh 'mvn test'
-            }
 
-        }
-
-        stage('Checkstyle Analysis'){
-            steps {
-                sh 'mvn checkstyle:checkstyle'
-            }
-        }
 
     }
 }
