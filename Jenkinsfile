@@ -14,17 +14,25 @@ pipeline {
 
     
 
- 
-  stage('SCM') {
-    git 'https://github.com/akhilvijay15/vprofile-project.git'
-  }
-  stage('SonarQube analysis') {
-    withSonarQubeEnv('sonar') {
-      // requires SonarQube Scanner for Maven 3.2+
-      sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
+ stage('Static Analysis') {
+      withSonarQubeEnv('MySonarToken') 
+      {
+        bat 'mvn clean package sonar:sonar'
+   	echo 'Static Analysis Completed' 
+      }
+   
+    stage("Quality Gate"){
+      timeout(time: 1, unit: 'HOURS') 
+      {
+        waitForQualityGate abortPipeline: true
+        def qg= waitForQualityGate()
+        if (qg.status!= 'OK'){
+          error "Pipeline aborted due to quality gate failure: ${qg.status}"
+        }
+      }         
+      echo 'Quality Gate Passed' 
     }
-  }
+  } 
 }
-
-    } 
-    
+      
+}    
