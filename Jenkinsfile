@@ -7,25 +7,22 @@ pipeline {
   stages {
        stage('Fetch code'){
           steps {
-              git branch:'vp-rem', url: 'https://github.com/devopshydclub/vprofile-repo.git'
+              git branch:'vp-rem', url: 'https://github.com/akhilvijay15/vprofile-project.git'
           }
        }
 
        stage('Build'){
           steps{
-             sh 'mvn install -DskipTests'
+             sh 'mvn install'
           }
-          post {
-             success {
-                  echo 'Now Archiving it...'
-                  archiveArtifacts artifacts: '**/target/*.war'
+          
              }
           }
        }
-       stage('UNIT TEST'){
+       stage('TEST'){
           steps{
              sh 'mvn test'
           }
         }     
-  }
-}
+
+
